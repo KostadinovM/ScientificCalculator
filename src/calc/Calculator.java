@@ -8,6 +8,7 @@ package calc;
 public class Calculator
 {
 	  private long memory = 0;
+	  private final double INCREMENT = 1E-4;
 	
 	 public long calculate(long number1, long number2, String operator) {
 	        switch (operator) {
@@ -33,7 +34,8 @@ public class Calculator
 		 switch(memoryFct)
 		 {
 		 case "MC":
-			 return memory = 0;
+			 memory = 0;
+			 return memory;
 		 case "MR":
 			 return memory;
 		 }
@@ -45,14 +47,37 @@ public class Calculator
 		 switch(memoryFct)
 		 {
 		 case "M+":
-			 return memory += number;
+			 memory += number;
+			 return memory;
 		 case "M-":
-			 return memory -= number;
+			 memory -= number;
+			 return memory;
 		 case "MS":
-			 return memory = number;
+			 memory = number;
+			 return memory;
 		 }
 		return 0;
 	 }
 	 
-	 
+	
+		public double integral(double a, double b, Function function)
+		{	
+			double area = 0;
+			double modifier = 1;
+			if(a>b)
+			{
+				double tempA = a;
+				a = b;
+				b = tempA;
+				modifier = -1;
+			}
+			for(double i = a + INCREMENT; i<b; i+=INCREMENT)
+			{
+				double dFromA = i - a;
+				area += (INCREMENT / 2) * (function.f(a + dFromA) + function.f(a + dFromA - INCREMENT)); 
+			}
+			return (Math.round(area * 1000.0) / 1000.0) * modifier;
+		}
+		
+	
 }

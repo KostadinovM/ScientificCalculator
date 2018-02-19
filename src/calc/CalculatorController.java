@@ -13,10 +13,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * Class that combines the button interaction with the calculator logic.
@@ -34,6 +38,7 @@ public class CalculatorController implements Initializable
     private long number1 = 0;
     private String operator = "";
     private boolean start = true;
+    
   
     private Calculator model = new Calculator();
     
@@ -65,9 +70,14 @@ public class CalculatorController implements Initializable
             output.setText("");
             start = false;
         }
-
+        if (output.getText().equals("0"))
+        {
+        	output.setText("");
+        }
         String value = ((Button)event.getSource()).getText();
         output.setText(output.getText() + value);
+
+      
     }
 
     @FXML
@@ -95,32 +105,9 @@ public class CalculatorController implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
 	{
-		try {
-			VBox box = FXMLLoader.load(getClass().getResource("NavigationDrawer.fxml"));
-		
-		
-		drawer.setSidePane(box);
-		drawer.setMouseTransparent(true);
-		HamburgerBackArrowBasicTransition burgerTask = new HamburgerBackArrowBasicTransition(hamburger);
-		burgerTask.setRate(-1);
-			hamburger.addEventHandler(MouseEvent.MOUSE_PRESSED, (e)->{
-				burgerTask.setRate(burgerTask.getRate() * -1);
-				burgerTask.play();
-				
-				if(drawer.isShown())
-				{
-					drawer.close();
-					drawer.setMouseTransparent(true);
-				}
-				else
-				{
-					drawer.open();
-					drawer.setMouseTransparent(false);
-				}
-			});
-			drawer.disabledProperty();
-		}
-			catch (IOException e1) {
-			}
+		DrawerController dc = new DrawerController();
+		dc.init(drawer, hamburger);
 	}
+	
+
 }
